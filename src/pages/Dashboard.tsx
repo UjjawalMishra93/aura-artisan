@@ -42,11 +42,11 @@ const Dashboard = () => {
   }, [user]);
 
   const fetchProfile = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('profiles')
       .select('credits_remaining, subscription_tier, total_credits_used')
       .eq('id', user?.id)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error('Error fetching profile:', error);
@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   const fetchImages = async () => {
     setLoadingImages(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('generated_images')
       .select('*')
       .eq('user_id', user?.id)
