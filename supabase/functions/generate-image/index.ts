@@ -63,11 +63,22 @@ serve(async (req) => {
 
     const startTime = Date.now();
 
+    const nebiusApiKey = Deno.env.get('NEBIUS_API_KEY');
+    if (!nebiusApiKey) {
+      console.error('NEBIUS_API_KEY not found in environment');
+      return new Response(
+        JSON.stringify({ error: 'API key not configured' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('Using Nebius API key:', nebiusApiKey.substring(0, 20) + '...');
+
     // Generate image using Nebius AI Studio
     const response = await fetch('https://api.studio.nebius.com/v1/images/generations', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('NEBIUS_API_KEY')}`,
+        'Authorization': `Bearer ${nebiusApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
