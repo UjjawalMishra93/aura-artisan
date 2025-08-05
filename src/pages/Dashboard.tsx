@@ -231,77 +231,130 @@ const Dashboard = () => {
 
           {/* Generate Tab */}
           <TabsContent value="generate" className="space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
               {/* Generation Panel */}
-              <Card className="glass border-0 shadow-2xl">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                      <Zap className="h-6 w-6" />
+              <div className="xl:col-span-2">
+                <Card className="glass border-0 shadow-2xl">
+                  <CardHeader className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        <Zap className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-2xl">AI Image Generator</CardTitle>
+                        <CardDescription className="text-lg">
+                          Transform your imagination into stunning visuals
+                        </CardDescription>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-2xl">AI Image Generator</CardTitle>
-                      <CardDescription className="text-lg">
-                        Transform your imagination into stunning visuals
-                      </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="prompt" className="text-lg font-semibold">Describe Your Vision</Label>
+                      <Textarea
+                        id="prompt"
+                        placeholder="A majestic dragon soaring through a starlit sky above a mystical forest..."
+                        value={prompt}
+                        onChange={(e) => setPrompt(e.target.value)}
+                        rows={6}
+                        className="text-lg border-primary/20 focus:border-primary/40 bg-background/50"
+                      />
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="prompt" className="text-lg font-semibold">Describe Your Vision</Label>
-                    <Textarea
-                      id="prompt"
-                      placeholder="A majestic dragon soaring through a starlit sky above a mystical forest..."
-                      value={prompt}
-                      onChange={(e) => setPrompt(e.target.value)}
-                      rows={6}
-                      className="text-lg border-primary/20 focus:border-primary/40 bg-background/50"
-                    />
-                  </div>
-                  
-                  <Button 
-                    onClick={generateImage}
-                    disabled={generating || !profile || profile.credits_remaining <= 0}
-                    className="w-full h-16 text-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-500 text-white shadow-lg btn-premium"
-                  >
-                    {generating ? (
-                      <>
-                        <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-l-transparent mr-3"></div>
-                        Generating Magic...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-6 w-6 mr-3" />
-                        Generate Image (1 credit)
-                      </>
-                    )}
-                  </Button>
+                    
+                    <Button 
+                      onClick={generateImage}
+                      disabled={generating || !profile || profile.credits_remaining <= 0}
+                      className="w-full h-16 text-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-500 text-white shadow-lg btn-premium"
+                    >
+                      {generating ? (
+                        <>
+                          <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-l-transparent mr-3"></div>
+                          Generating Magic...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-6 w-6 mr-3" />
+                          Generate Image (1 credit)
+                        </>
+                      )}
+                    </Button>
 
-                  {/* Quick Prompts */}
-                  <div className="space-y-3">
-                    <Label className="text-sm font-medium text-muted-foreground">Quick Prompts</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        "Futuristic cityscape at sunset",
-                        "Magical forest with glowing mushrooms",
-                        "Abstract art with vibrant colors", 
-                        "Vintage car in the rain"
-                      ].map((quickPrompt, index) => (
-                        <Button
-                          key={index}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setPrompt(quickPrompt)}
-                          className="text-xs hover:bg-primary/5 border-primary/20"
-                        >
-                          {quickPrompt}
-                        </Button>
-                      ))}
+                    {/* Quick Prompts */}
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-muted-foreground">Quick Prompts</Label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          "Futuristic cityscape at sunset",
+                          "Magical forest with glowing mushrooms",
+                          "Abstract art with vibrant colors", 
+                          "Vintage car in the rain"
+                        ].map((quickPrompt, index) => (
+                          <Button
+                            key={index}
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setPrompt(quickPrompt)}
+                            className="text-xs hover:bg-primary/5 border-primary/20"
+                          >
+                            {quickPrompt}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+
+                    {/* Generated Image Preview */}
+                    {images.length > 0 && (
+                      <div className="space-y-4 border-t pt-6">
+                        <Label className="text-lg font-semibold">Latest Creation</Label>
+                        <Card className="glass border-2 border-primary/20 overflow-hidden">
+                          <div className="aspect-square relative bg-gradient-to-br from-primary/5 to-purple-500/5">
+                            <img
+                              src={images[0].image_url}
+                              alt={images[0].prompt}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            
+                            {/* Action Buttons Overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 p-6">
+                              <div className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                  <p className="text-white font-semibold text-lg line-clamp-2 mb-2">
+                                    {images[0].prompt}
+                                  </p>
+                                  <div className="flex items-center gap-2 text-white/80 text-sm">
+                                    <Clock className="h-4 w-4" />
+                                    Generated in {images[0].generation_time_ms}ms
+                                  </div>
+                                </div>
+                                
+                                <div className="flex gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={() => downloadImage(images[0].image_url, images[0].prompt)}
+                                    className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30"
+                                  >
+                                    <Download className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={() => copyImageUrl(images[0].image_url)}
+                                    className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30"
+                                  >
+                                    <Share2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
 
               {/* Stats Panel */}
               <div className="space-y-6">
