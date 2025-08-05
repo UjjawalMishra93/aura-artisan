@@ -9,10 +9,11 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import SubscriptionPlans from '@/components/SubscriptionPlans';
 import { 
   Sparkles, Download, Heart, Share2, Copy, CreditCard, Zap, ImageIcon, Clock, 
   Palette, Wand2, Settings, Images, User, BarChart3, Filter, Search, Grid3X3, 
-  MoreVertical, Trash2, Edit, Star, Layers, Play, Pause
+  MoreVertical, Trash2, Edit, Star, Layers, Play, Pause, Crown
 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 
@@ -46,8 +47,23 @@ const Dashboard = () => {
     if (user) {
       fetchProfile();
       fetchImages();
+      checkSubscription();
     }
   }, [user]);
+
+  const checkSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('check-subscription');
+      if (error) throw error;
+      
+      if (data) {
+        // Refresh profile after subscription check
+        await fetchProfile();
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
 
   const fetchProfile = async () => {
     const { data, error } = await (supabase as any)
@@ -214,7 +230,7 @@ const Dashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="generate" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-muted/50">
+          <TabsList className="grid w-full grid-cols-4 mb-8 bg-muted/50">
             <TabsTrigger value="generate" className="flex items-center gap-2">
               <Wand2 className="h-4 w-4" />
               Generate
@@ -222,6 +238,10 @@ const Dashboard = () => {
             <TabsTrigger value="gallery" className="flex items-center gap-2">
               <Images className="h-4 w-4" />
               Gallery
+            </TabsTrigger>
+            <TabsTrigger value="plans" className="flex items-center gap-2">
+              <Crown className="h-4 w-4" />
+              Plans
             </TabsTrigger>
             <TabsTrigger value="profile" className="flex items-center gap-2">
               <User className="h-4 w-4" />
@@ -526,6 +546,14 @@ const Dashboard = () => {
                 ))}
               </div>
             )}
+          </TabsContent>
+
+          {/* Plans Tab */}
+          <TabsContent value="plans" className="space-y-6">
+            <SubscriptionPlans 
+              currentPlan={profile?.subscription_tier || 'free'} 
+              onPlanChange={checkSubscription}
+            />
           </TabsContent>
 
           {/* Profile Tab */}

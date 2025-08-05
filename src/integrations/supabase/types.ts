@@ -14,7 +14,141 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      generated_images: {
+        Row: {
+          created_at: string
+          credits_used: number | null
+          generation_time_ms: number | null
+          id: string
+          image_url: string
+          is_public: boolean | null
+          model_used: string | null
+          prompt: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          credits_used?: number | null
+          generation_time_ms?: number | null
+          id?: string
+          image_url: string
+          is_public?: boolean | null
+          model_used?: string | null
+          prompt: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          credits_used?: number | null
+          generation_time_ms?: number | null
+          id?: string
+          image_url?: string
+          is_public?: boolean | null
+          model_used?: string | null
+          prompt?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          credits_remaining: number | null
+          email: string | null
+          full_name: string | null
+          id: string
+          subscription_tier: string | null
+          total_credits_used: number | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          credits_remaining?: number | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          subscription_tier?: string | null
+          total_credits_used?: number | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          credits_remaining?: number | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          subscription_tier?: string | null
+          total_credits_used?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          stripe_customer_id: string | null
+          subscribed: boolean
+          subscription_end: string | null
+          subscription_tier: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscribed?: boolean
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      usage_logs: {
+        Row: {
+          action: string
+          created_at: string
+          credits_consumed: number | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          credits_consumed?: number | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          credits_consumed?: number | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
