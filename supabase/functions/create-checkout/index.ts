@@ -45,25 +45,23 @@ serve(async (req) => {
     }
     logStep("Customer lookup completed", { customerId });
 
-    // Define pricing
-    const pricing = {
-      pro: { amount: 999, name: "Pro Plan" }, // $9.99/month
-      pro_plus: { amount: 1999, name: "Pro Plus Plan" } // $19.99/month
+    // Define price IDs for each plan
+    const priceIds = {
+      pro: "price_1RsezNHkAfZ9Qh1AU926wnIj",
+      pro_plus: "price_1Rsf0DHkAfZ9Qh1AZTUCA1rP"
     };
 
-    const selectedPlan = pricing[plan as keyof typeof pricing];
+    const priceId = priceIds[plan as keyof typeof priceIds];
+    if (!priceId) {
+      throw new Error(`Invalid plan: ${plan}`);
+    }
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: { name: selectedPlan.name },
-            unit_amount: selectedPlan.amount,
-            recurring: { interval: "month" },
-          },
+          price: priceId,
           quantity: 1,
         },
       ],
