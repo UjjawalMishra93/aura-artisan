@@ -61,15 +61,15 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
       price: '$19.99',
       period: 'per month',
       description: 'Perfect for professionals and businesses',
-      features: [
-        'Unlimited image generations',
+        features: [
+        '1000 image generations',
         'Premium image quality',
         'Advanced editing tools',
         '24/7 priority support',
         'Commercial usage rights',
         'API access'
       ],
-      credits: '∞',
+      credits: 1000,
       icon: Crown,
       popular: false,
       buttonText: 'Upgrade to Pro Plus',

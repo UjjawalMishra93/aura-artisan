@@ -61,8 +61,8 @@ serve(async (req) => {
       );
     }
 
-    // Check credits only if not pro_plus (unlimited plan)
-    if (profile.subscription_tier !== 'pro_plus' && profile.credits_remaining <= 0) {
+    // Check credits - all users have limits now
+    if (profile.credits_remaining <= 0) {
       return new Response(
         JSON.stringify({ error: 'Insufficient credits' }),
         { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -157,11 +157,8 @@ serve(async (req) => {
       console.error('Database insert error:', insertError);
     }
 
-    // Update user credits (only deduct if not pro_plus)
-    let newCreditsRemaining = profile.credits_remaining;
-    if (profile.subscription_tier !== 'pro_plus') {
-      newCreditsRemaining = profile.credits_remaining - 1;
-    }
+    // Update user credits - deduct 1 credit for all users
+    const newCreditsRemaining = profile.credits_remaining - 1;
     
     const { error: creditError } = await supabase
       .from('profiles')
@@ -188,7 +185,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         imageUrl: publicUrl,
-        creditsRemaining: profile.subscription_tier === 'pro_plus' ? 999 : (profile.credits_remaining - 1),
+        creditsRemaining: profile.credits_remaining - 1,
         generationTime: generationTime
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

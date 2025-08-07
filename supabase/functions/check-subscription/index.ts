@@ -95,13 +95,13 @@ serve(async (req) => {
       
       if (priceId === "price_1Rsf0DHkAfZ9Qh1AZTUCA1rP") {
         subscriptionTier = "pro_plus";
-        creditsRemaining = 999; // Unlimited for pro_plus
+        creditsRemaining = 1000; // 1000 credits for pro_plus
       } else if (priceId === "price_1RsezNHkAfZ9Qh1AU926wnIj") {
         subscriptionTier = "pro";
         creditsRemaining = 3; // 3 credits for pro
       } else {
         subscriptionTier = "free";
-        creditsRemaining = 1;
+        creditsRemaining = 1; // 1 credit for free
       }
       
       logStep("Determined subscription tier", { priceId, subscriptionTier });
