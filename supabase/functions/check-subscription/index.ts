@@ -90,23 +90,21 @@ serve(async (req) => {
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
       logStep("Active subscription found", { subscriptionId: subscription.id, endDate: subscriptionEnd });
       
-      // Determine subscription tier from price
+      // Determine subscription tier from price ID
       const priceId = subscription.items.data[0].price.id;
-      const price = await stripe.prices.retrieve(priceId);
-      const amount = price.unit_amount || 0;
       
-      if (amount >= 1500) {
+      if (priceId === "price_1Rsf0DHkAfZ9Qh1AZTUCA1rP") {
         subscriptionTier = "pro_plus";
-        creditsRemaining = 999; // Unlimited
-      } else if (amount >= 500) {
+        creditsRemaining = 999; // Unlimited for pro_plus
+      } else if (priceId === "price_1RsezNHkAfZ9Qh1AU926wnIj") {
         subscriptionTier = "pro";
-        creditsRemaining = 3;
+        creditsRemaining = 3; // 3 credits for pro
       } else {
         subscriptionTier = "free";
         creditsRemaining = 1;
       }
       
-      logStep("Determined subscription tier", { priceId, amount, subscriptionTier });
+      logStep("Determined subscription tier", { priceId, subscriptionTier });
     } else {
       logStep("No active subscription found");
     }

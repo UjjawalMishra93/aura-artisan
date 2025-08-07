@@ -42,7 +42,7 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
       price: '$9.99',
       period: 'per month',
       description: 'Great for regular users and small projects',
-      features: [
+        features: [
         '3 image generations per month',
         'High-quality images',
         'Private gallery',

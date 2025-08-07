@@ -50,11 +50,19 @@ serve(async (req) => {
 
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('credits_remaining')
+      .select('credits_remaining, subscription_tier, total_credits_used')
       .eq('id', user.id)
       .single();
 
-    if (profileError || !profile || profile.credits_remaining <= 0) {
+    if (profileError || !profile) {
+      return new Response(
+        JSON.stringify({ error: 'Profile not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check credits only if not pro_plus (unlimited plan)
+    if (profile.subscription_tier !== 'pro_plus' && profile.credits_remaining <= 0) {
       return new Response(
         JSON.stringify({ error: 'Insufficient credits' }),
         { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -149,11 +157,16 @@ serve(async (req) => {
       console.error('Database insert error:', insertError);
     }
 
-    // Update user credits
+    // Update user credits (only deduct if not pro_plus)
+    let newCreditsRemaining = profile.credits_remaining;
+    if (profile.subscription_tier !== 'pro_plus') {
+      newCreditsRemaining = profile.credits_remaining - 1;
+    }
+    
     const { error: creditError } = await supabase
       .from('profiles')
       .update({ 
-        credits_remaining: profile.credits_remaining - 1,
+        credits_remaining: newCreditsRemaining,
         total_credits_used: (profile.total_credits_used || 0) + 1
       })
       .eq('id', user.id);
@@ -175,7 +188,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         imageUrl: publicUrl,
-        creditsRemaining: profile.credits_remaining - 1,
+        creditsRemaining: profile.subscription_tier === 'pro_plus' ? 999 : (profile.credits_remaining - 1),
         generationTime: generationTime
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

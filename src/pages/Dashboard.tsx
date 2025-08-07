@@ -556,8 +556,8 @@ const Dashboard = () => {
             <TabsContent value="gallery" className="space-y-8">
               <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
                 <div>
-                  <h2 className="text-3xl font-bold mb-2">Your Gallery</h2>
-                  <p className="text-muted-foreground">Explore your creative journey</p>
+                  <h2 className="text-3xl font-bold mb-2">Complete History</h2>
+                  <p className="text-muted-foreground">All your generated images in one place</p>
                 </div>
                 
                 <div className="flex gap-4 items-center">
@@ -594,7 +594,7 @@ const Dashboard = () => {
 
             {/* Plans Tab */}
             <TabsContent value="plans">
-              <SubscriptionPlans />
+              <SubscriptionPlans currentPlan={profile?.subscription_tier || 'free'} onPlanChange={checkSubscription} />
             </TabsContent>
 
             {/* Enhanced Profile Tab */}
