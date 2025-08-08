@@ -19,7 +19,7 @@ import {
   Sparkles, Download, Copy, CreditCard, Zap, ImageIcon, Clock, 
   Palette, Wand2, Settings, Images, User, BarChart3, Filter, Search, 
   MoreVertical, Trash2, Star, Crown, Bell, TrendingUp, Eye, 
-  Calendar, Lightbulb, Shuffle, Plus
+  Calendar, Lightbulb, Shuffle, Plus, LogOut, Loader2
 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 import {
