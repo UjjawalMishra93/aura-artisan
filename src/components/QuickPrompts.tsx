@@ -45,7 +45,7 @@ export const QuickPrompts = ({ onPromptSelect, className = '' }: QuickPromptsPro
                 key={index}
                 variant="outline"
                 onClick={() => onPromptSelect(prompt.text)}
-                className="h-auto p-4 text-left flex items-start gap-3 hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-200 group"
+                className="h-auto p-4 text-left flex items-start gap-3 hover-primary-light border-primary/20 transition-all duration-200 group"
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-purple-500/10 group-hover:from-primary/20 group-hover:to-purple-500/20 transition-colors">
                   <IconComponent className="h-4 w-4 text-primary" />

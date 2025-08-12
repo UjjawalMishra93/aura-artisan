@@ -58,7 +58,7 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
     {
       id: 'pro_plus',
       name: 'Pro Plus',
-      price: '$19.99',
+      price: '$50',
       period: 'per month',
       description: 'Perfect for professionals and businesses',
         features: [
@@ -99,7 +99,35 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
 
       // Open Stripe checkout in a new tab
       if (data.url) {
-        window.open(data.url, '_blank');
+        const checkoutWindow = window.open(data.url, '_blank');
+        
+        // Show success message with instructions
+        toast({
+          title: 'Checkout opened',
+          description: 'Complete your payment in the new tab. After payment, refresh this page or click "Refresh Subscription" to see your updated plan.',
+          duration: 8000,
+        });
+        
+        // Listen for payment completion (optional - can be removed if not needed)
+        if (checkoutWindow) {
+          const checkPaymentStatus = setInterval(async () => {
+            try {
+              if (checkoutWindow.closed) {
+                clearInterval(checkPaymentStatus);
+                // Give some time for webhook to process
+                setTimeout(() => {
+                  toast({
+                    title: 'Payment completed',
+                    description: 'Click "Refresh Subscription" to see your updated plan and credits.',
+                    duration: 5000,
+                  });
+                }, 2000);
+              }
+            } catch (error) {
+              clearInterval(checkPaymentStatus);
+            }
+          }, 1000);
+        }
       }
     } catch (error) {
       console.error('Error creating checkout:', error);
@@ -146,6 +174,18 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Select the perfect plan for your AI image generation needs. Upgrade or downgrade anytime.
         </p>
+        
+        {/* Payment completion notice */}
+        {currentPlan === 'free' && (
+          <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 max-w-2xl mx-auto">
+            <div className="flex items-center gap-3 justify-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                <strong>Just completed a payment?</strong> If you don't see your updated plan, click the "Refresh Subscription Status" button below.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -247,8 +287,24 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
         })}
       </div>
 
-      {(currentPlan === 'pro' || currentPlan === 'pro_plus') && (
-        <div className="text-center">
+      <div className="text-center space-y-4">
+        {/* Manual refresh button for all users */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Button 
+            variant="outline" 
+            onClick={onPlanChange}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            🔄 Refresh Subscription Status
+          </Button>
+          
+          <p className="text-sm text-muted-foreground max-w-md">
+            If you've recently completed a payment but don't see your updated plan, click this button to refresh your subscription status.
+          </p>
+        </div>
+        
+        {/* Manage subscription button for subscribed users */}
+        {(currentPlan === 'pro' || currentPlan === 'pro_plus') && (
           <Button 
             variant="outline" 
             onClick={handleManageSubscription}
@@ -257,8 +313,8 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
           >
             {loading === 'manage' ? 'Loading...' : 'Manage Your Subscription'}
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

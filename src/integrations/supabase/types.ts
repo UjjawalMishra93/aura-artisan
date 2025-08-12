@@ -22,6 +22,7 @@ export type Database = {
           id: string
           image_url: string
           is_public: boolean | null
+          is_favorite: boolean | null
           model_used: string | null
           prompt: string
           user_id: string
@@ -33,6 +34,7 @@ export type Database = {
           id?: string
           image_url: string
           is_public?: boolean | null
+          is_favorite?: boolean | null
           model_used?: string | null
           prompt: string
           user_id: string
@@ -44,6 +46,7 @@ export type Database = {
           id?: string
           image_url?: string
           is_public?: boolean | null
+          is_favorite?: boolean | null
           model_used?: string | null
           prompt?: string
           user_id?: string

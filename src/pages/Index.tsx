@@ -125,7 +125,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-12">
             <div className="space-y-6">
-              <Badge variant="secondary" className="px-6 py-3 text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                              <Badge variant="secondary" className="px-6 py-3 text-sm bg-primary/10 text-primary border-primary/20 hover-primary-medium transition-colors">
                 🚀 Powered by Advanced Nebius AI Technology
               </Badge>
               
@@ -163,7 +163,7 @@ const Index = () => {
                   </Button>
                 </Link>
               )}
-              <Button size="lg" variant="outline" className="text-xl px-12 py-8 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300">
+              <Button size="lg" variant="outline" className="text-xl px-12 py-8 border-2 border-primary/20 hover:border-primary/40 hover-primary-light transition-all duration-300">
                 <Users className="h-6 w-6 mr-3" />
                 View Gallery
               </Button>

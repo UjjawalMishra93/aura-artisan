@@ -1,4 +1,0 @@
-project_id = "xsgicaecwdiaolbpqazi"
-
-[functions.generate-image]
-verify_jwt = true

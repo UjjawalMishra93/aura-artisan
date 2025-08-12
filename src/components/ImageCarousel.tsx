@@ -27,6 +27,7 @@ interface GeneratedImage {
   created_at: string;
   generation_time_ms: number;
   is_public: boolean;
+  is_favorite: boolean;
 }
 
 interface ImageCarouselProps {
@@ -114,12 +115,18 @@ export const ImageCarousel = ({
                                 size="sm"
                                 variant="secondary"
                                 onClick={() => onFavorite(image.id)}
-                                className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30"
+                                                                className={`${
+                                  image.is_favorite 
+                                    ? 'bg-pink-500/20 border-pink-500/40 hover-pink-dark'
+                                : 'bg-white/20 border-white/20 hover-white-dark'
+                                } backdrop-blur-sm text-white`}
                               >
-                                <Heart className="h-4 w-4" />
+                                <Heart className={`h-4 w-4 ${image.is_favorite ? 'fill-current text-pink-400' : ''}`} />
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Add to favorites</TooltipContent>
+                            <TooltipContent>
+                              {image.is_favorite ? 'Remove from favorites' : 'Add to favorites'}
+                            </TooltipContent>
                           </Tooltip>
                         )}
                       </div>
@@ -138,7 +145,7 @@ export const ImageCarousel = ({
                                 size="sm"
                                 variant="secondary"
                                 onClick={() => onDownload(image.image_url, image.prompt)}
-                                className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30"
+                                className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover-white-dark"
                               >
                                 <Download className="h-4 w-4" />
                               </Button>
@@ -152,7 +159,7 @@ export const ImageCarousel = ({
                                 size="sm"
                                 variant="secondary"
                                 onClick={() => onCopy(image.image_url)}
-                                className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30"
+                                className="bg-white/20 backdrop-blur-sm text-white border-white/20 hover-white-dark"
                               >
                                 <Share2 className="h-4 w-4" />
                               </Button>
@@ -166,7 +173,7 @@ export const ImageCarousel = ({
                                 size="sm"
                                 variant="destructive"
                                 onClick={() => onDelete(image.id)}
-                                className="bg-red-500/20 backdrop-blur-sm text-white border-red-500/20 hover:bg-red-500/30"
+                                className="bg-red-500/20 backdrop-blur-sm text-white border-red-500/20 hover-red-dark"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -185,8 +192,8 @@ export const ImageCarousel = ({
         
         {images.length > 3 && (
           <>
-            <CarouselPrevious className="glass border-primary/20 hover:bg-primary/10" />
-            <CarouselNext className="glass border-primary/20 hover:bg-primary/10" />
+            <CarouselPrevious className="glass border-primary/20 hover-primary-medium" />
+            <CarouselNext className="glass border-primary/20 hover-primary-medium" />
           </>
         )}
       </Carousel>
