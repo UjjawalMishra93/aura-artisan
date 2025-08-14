@@ -18,7 +18,7 @@ import { QuickPrompts } from '@/components/QuickPrompts';
 import { 
   Sparkles, Download, Copy, CreditCard, Zap, ImageIcon, Clock, 
   Palette, Wand2, Settings, Images, User, BarChart3, Filter, Search, 
-  MoreVertical, Trash2, Star, Crown, Bell, TrendingUp, Eye, 
+  MoreVertical, Trash2, Star, Bell, TrendingUp, Eye, 
   Calendar, Lightbulb, Shuffle, Plus, LogOut, Loader2, Heart, RefreshCw
 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
@@ -178,7 +178,7 @@ const Dashboard = () => {
         if (profile.subscription_tier === 'free' && profile.credits_remaining === 1) {
           toast({
             title: 'Payment Completed?',
-            description: 'If you recently completed a ProPlus payment, click the refresh button (🔄) to update your subscription status.',
+            description: 'If you recently completed a payment but still see Free plan, click the refresh button (🔄) to update your subscription status.',
             duration: 10000,
           });
         }
@@ -244,6 +244,8 @@ const Dashboard = () => {
       setIsCheckingSubscription(false);
     }
   };
+
+
 
   const fetchProfile = async () => {
     if (!user?.id) {
@@ -521,8 +523,6 @@ const Dashboard = () => {
     switch (tier) {
       case 'pro':
         return 'bg-gradient-to-r from-blue-500 to-cyan-500';
-      case 'pro_plus':
-        return 'bg-gradient-to-r from-purple-500 to-pink-500';
       default:
         return 'bg-gradient-to-r from-gray-400 to-gray-600';
     }
@@ -544,6 +544,8 @@ const Dashboard = () => {
         
         {/* Content container */}
         <div className="relative z-10">
+
+        
         {/* Enhanced Header with Gradient Background */}
         <header className="border-b border-primary/10 bg-gradient-to-r from-background/95 via-background/90 to-primary/5 backdrop-blur-xl sticky top-0 z-50 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -580,7 +582,7 @@ const Dashboard = () => {
                         variant="outline" 
                         className="gap-2 px-3 py-1 text-xs border-primary/30 text-primary"
                       >
-                        <Crown className="h-3 w-3" />
+                        <Star className="h-3 w-3" />
                         {profile?.subscription_tier || 'Free'}
                       </Badge>
                     </TooltipTrigger>
@@ -675,7 +677,7 @@ const Dashboard = () => {
                 {/* Subtle glow effect */}
                 <div className="absolute inset-0 rounded-lg bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10 flex items-center gap-3">
-                  <Crown className="h-5 w-5" />
+                  <CreditCard className="h-5 w-5" />
                   Plans
                 </div>
               </TabsTrigger>
@@ -1204,7 +1206,10 @@ const Dashboard = () => {
 
             {/* Plans Tab */}
             <TabsContent value="plans">
-              <SubscriptionPlans currentPlan={profile?.subscription_tier || 'free'} onPlanChange={checkSubscription} />
+              <SubscriptionPlans 
+                currentPlan={profile?.subscription_tier || 'free'} 
+                onPlanChange={checkSubscription}
+              />
             </TabsContent>
 
             {/* Enhanced Profile Tab */}

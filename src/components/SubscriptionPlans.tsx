@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/AuthProvider';
-import { Check, Zap, Crown, Star } from 'lucide-react';
+import { Check, Zap, Star } from 'lucide-react';
 
 interface SubscriptionPlansProps {
   currentPlan?: string;
@@ -53,26 +53,6 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
       icon: Zap,
       popular: true,
       buttonText: 'Upgrade to Pro',
-      disabled: false
-    },
-    {
-      id: 'pro_plus',
-      name: 'Pro Plus',
-      price: '$50',
-      period: 'per month',
-      description: 'Perfect for professionals and businesses',
-        features: [
-        '1000 image generations',
-        'Premium image quality',
-        'Advanced editing tools',
-        '24/7 priority support',
-        'Commercial usage rights',
-        'API access'
-      ],
-      credits: 1000,
-      icon: Crown,
-      popular: false,
-      buttonText: 'Upgrade to Pro Plus',
       disabled: false
     }
   ];
@@ -171,28 +151,13 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
         <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
           Choose Your Plan
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Select the perfect plan for your AI image generation needs. Upgrade or downgrade anytime.
-        </p>
-        
-        {/* Payment completion notice */}
-        {currentPlan === 'free' && (
-          <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 max-w-2xl mx-auto">
-            <div className="flex items-center gap-3 justify-center">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <p className="text-sm text-blue-700 dark:text-blue-300">
-                <strong>Just completed a payment?</strong> If you don't see your updated plan, click the "Refresh Subscription Status" button below.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
         {plans.map((plan) => {
           const Icon = plan.icon;
           const isCurrentPlan = currentPlan === plan.id;
-          const isSubscribed = currentPlan === 'pro' || currentPlan === 'pro_plus';
+          const isSubscribed = currentPlan === 'pro';
           
           return (
             <Card 
@@ -252,7 +217,7 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
                         <Check className="h-4 w-4 mr-2" />
                         Current Plan
                       </Button>
-                      {(currentPlan === 'pro' || currentPlan === 'pro_plus') && (
+                      {currentPlan === 'pro' && (
                         <Button 
                           variant="outline" 
                           onClick={handleManageSubscription}
@@ -288,23 +253,8 @@ const SubscriptionPlans = ({ currentPlan = 'free', onPlanChange }: SubscriptionP
       </div>
 
       <div className="text-center space-y-4">
-        {/* Manual refresh button for all users */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
-            variant="outline" 
-            onClick={onPlanChange}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            🔄 Refresh Subscription Status
-          </Button>
-          
-          <p className="text-sm text-muted-foreground max-w-md">
-            If you've recently completed a payment but don't see your updated plan, click this button to refresh your subscription status.
-          </p>
-        </div>
-        
         {/* Manage subscription button for subscribed users */}
-        {(currentPlan === 'pro' || currentPlan === 'pro_plus') && (
+        {currentPlan === 'pro' && (
           <Button 
             variant="outline" 
             onClick={handleManageSubscription}

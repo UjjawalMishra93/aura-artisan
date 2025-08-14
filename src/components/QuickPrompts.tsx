@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Sparkles, Camera, Palette, Mountain, Building2, 
-  Rocket, Flower, Car, Crown, Gamepad2 
+  Rocket, Flower, Car, Gamepad2 
 } from 'lucide-react';
 
 interface QuickPrompt {
@@ -16,7 +16,7 @@ const quickPrompts: QuickPrompt[] = [
   { text: "Magical forest with glowing mushrooms", icon: Flower, category: "Fantasy" },
   { text: "Abstract art with vibrant colors", icon: Palette, category: "Abstract" },
   { text: "Vintage car in the rain", icon: Car, category: "Automotive" },
-  { text: "Majestic dragon soaring through clouds", icon: Crown, category: "Fantasy" },
+  { text: "Majestic dragon soaring through clouds", icon: Sparkles, category: "Fantasy" },
   { text: "Cyberpunk warrior in neon city", icon: Gamepad2, category: "Sci-Fi" },
   { text: "Serene mountain lake at dawn", icon: Mountain, category: "Nature" },
   { text: "Space station orbiting distant planet", icon: Rocket, category: "Sci-Fi" },
