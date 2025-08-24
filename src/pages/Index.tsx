@@ -4,175 +4,130 @@ import { Badge } from '@/components/ui/badge';
 import { Sparkles, Zap, Shield, Infinity, ArrowRight, ImageIcon, Users, Star, Palette, Clock, Download, Globe, Wand2, Layers, Rocket, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/components/AuthProvider';
-import { useState } from 'react';
+import { CTASection } from "@/components/cta_with_rectangle"
+
+export function CTADemo() {
+  return (
+    <CTASection
+      badge={{
+        text: "Get started"
+      }}
+      title="Start building with Launch UI"
+      description="Get started with Launch UI and build your landing page in no time"
+      action={{
+        text: "Get Started",
+        href: "/docs",
+        variant: "default"
+      }}
+    />
+  )
+}
+
+
+
+
+
+import { useState, useEffect } from 'react';
+
+import {  FeaturesSectionWithHoverEffects } from '@/components/Feature';
+
+import { MarqueeDemo } from '@/components/logomoving';
+import TestimonialsMaster from '@/components/testimonial_content';
+
+import { BentoGridGalleryDemo } from '@/components/Gallery';
+
+
 
 const Index = () => {
   const { user } = useAuth();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  // Track active nav link by hash
+  const [activeSection, setActiveSection] = useState(() => window.location.hash || '#explore');
+
+  useEffect(() => {
+    const onHashChange = () => setActiveSection(window.location.hash || '#explore');
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   // Theme switch removed. Dark theme is default via CSS.
 
-  const features = [
-    {
-      icon: <Wand2 className="h-8 w-8" />,
-      title: "AI-Powered Generation",
-      description: "Create stunning images from text using cutting-edge Nebius AI technology with lightning-fast results",
-      color: "text-electric"
-    },
-    {
-      icon: <Layers className="h-8 w-8" />,
-      title: "Professional Quality",
-      description: "Generate high-resolution images perfect for commercial use, marketing, and creative projects",
-      color: "text-magenta"
-    },
-    {
-      icon: <Rocket className="h-8 w-8" />,
-      title: "Lightning Fast",
-      description: "Advanced optimization delivers your images in seconds, not minutes. Perfect for rapid iteration",
-      color: "text-blue"
-    },
-    {
-      icon: <Shield className="h-8 w-8" />,
-      title: "Secure & Private",
-      description: "Enterprise-grade security ensures your creations and data remain protected and confidential",
-      color: "text-electric"
-    },
-    {
-      icon: <Globe className="h-8 w-8" />,
-      title: "Global Access",
-      description: "Access your image gallery from anywhere, with cloud sync and cross-device compatibility",
-      color: "text-magenta"
-    },
-    {
-      icon: <Infinity className="h-8 w-8" />,
-      title: "Unlimited Creativity",
-      description: "Explore endless possibilities with advanced prompting and style controls for unique results",
-      color: "text-blue"
-    }
-  ];
-
-  const stats = [
-    { number: "500K+", label: "Images Generated", icon: <ImageIcon className="h-6 w-6" /> },
-    { number: "15K+", label: "Happy Users", icon: <Users className="h-6 w-6" /> },
-    { number: "99.9%", label: "Uptime", icon: <Clock className="h-6 w-6" /> },
-    { number: "4.9/5", label: "User Rating", icon: <Star className="h-6 w-6" /> }
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "Digital Artist & Creator",
-      content: "ImageMaster has completely revolutionized my creative workflow. The quality is absolutely incredible and the speed is unmatched!",
-      rating: 5,
-      avatar: "SC"
-    },
-    {
-      name: "Mark Rodriguez", 
-      role: "Marketing Director",
-      content: "Perfect for creating unique visuals for our campaigns. It saves us hours of work and the results are consistently professional.",
-      rating: 5,
-      avatar: "MR"
-    },
-    {
-      name: "Emily Watson",
-      role: "Content Creator", 
-      content: "The ease of use combined with professional results makes this a must-have tool. I can't imagine working without it now.",
-      rating: 5,
-      avatar: "EW"
-    }
-  ];
-
-  // Sample gallery images for demonstration
-  const galleryImages = [
-    { id: 1, url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop", prompt: "Futuristic cyberpunk cityscape" },
-    { id: 2, url: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop", prompt: "Sci-fi robot portrait" },
-    { id: 3, url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=500&fit=crop", prompt: "Neon-lit street scene" },
-    { id: 4, url: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=700&fit=crop", prompt: "Digital art masterpiece" },
-    { id: 5, url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=450&fit=crop", prompt: "Abstract neon composition" },
-    { id: 6, url: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=550&fit=crop", prompt: "Futuristic landscape" },
-  ];
-
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  // ...existing code for features, stats, testimonials, etc...
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated background with AI art collage */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* AI-generated image collage background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-pink-900/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90"></div>
-        
-        {/* Floating electric orbs */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-3xl animate-float" style={{animationDelay: '4s'}}></div>
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:50px_50px]"></div>
-        </div>
-      </div>
 
-      {/* Navigation */}
-      <nav className="relative z-50 border-b border-border/20 bg-background/80 backdrop-blur-xl sticky top-0">
-        <div className="container-electric">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Sparkles className="h-7 w-7 text-primary animate-electric-pulse" />
-                <div className="absolute inset-0 bg-primary/20 rounded-full blur-md animate-pulse"></div>
-              </div>
-              <h1 className="text-2xl font-heading font-bold text-foreground animate-text-glow">
-                ImageMaster
-              </h1>
-            </div>
-            <div className="flex items-center gap-4">
-              {user ? (
-                <Link to="/dashboard">
-                  <Button className="btn-electric bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-electric">
-                    <Palette className="h-4 w-4 mr-2" />
-                    Dashboard
-                  </Button>
-                </Link>
-              ) : (
-                <Link to="/auth">
-                  <Button className="btn-electric bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-electric">
-                    Get Started
-                  </Button>
-                </Link>
-              )}
-            </div>
+    <div
+      className="min-h-screen bg-background relative"
+      
+    >
+
+      
+
+     <div 
+     style={{
+        backgroundImage: 'url(/bg.svg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top',
+        backgroundRepeat: 'no-repeat',
+      }}>
+      {/* Navigation - Redesigned to match reference */}
+       <nav className="z-50 fixed top-6 left-1/2 transform -translate-x-1/2 w-[95vw] max-w-5xl flex items-center justify-between px-8 py-3 rounded-full  shadow-xl border border-border/30 backdrop-blur-xl">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div className="bg-primary rounded-lg p-2 flex items-center justify-center">
+            <Sparkles className="h-6 w-6 text-white" />
           </div>
+          <span className="text-2xl font-bold text-foreground tracking-tight">Pixora</span>
+        </div>
+        {/* Nav links pill group */}
+        <div className="hidden md:flex items-center gap-1 bg-[#18181b] px-2 py-1 rounded-full border border-border/40">
+          {[
+            { href: '#explore', label: 'Explore' },
+            { href: '#prices', label: 'Prices' },
+            { href: '#why', label: 'Why Pixora' },
+            { href: '#earn', label: 'Earn' },
+            { href: '#support', label: 'Support' },
+          ].map(link => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`px-5 py-2 rounded-full font-medium text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 ${isActive ? 'bg-[#232329] shadow-inner' : ''} hover:bg-[#232329]`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+        </div>
+        {/* Auth buttons */}
+        <div className="flex items-center gap-2">
+          <Link to={user ? "/dashboard" : "/auth"}>
+            <Button variant="outline" className="rounded-full px-6 py-2 font-semibold border-border/50 bg-[#18181b] text-foreground hover:bg-[#232329]">Login</Button>
+          </Link>
+          <Link to={user ? "/dashboard" : "/auth"}>
+            <Button className="rounded-full px-6 py-2 font-semibold bg-primary text-white hover:bg-primary/90 transition-colors">Sign up</Button>
+          </Link>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-40 overflow-hidden">
         <div className="container-electric">
           <div className="text-center space-y-16 max-w-5xl mx-auto">
             <div className="space-y-8">
               <Badge className="px-6 py-3 text-sm bg-primary/10 text-primary border-primary/20 font-medium animate-fade-in-up">
                 ✨ Powered by Advanced Nebius AI Technology
               </Badge>
-              
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-heading font-bold leading-tight text-foreground animate-fade-in-up">
-                Create Stunning
-                <br />
+                Create Stunning<br />
                 <span className="text-gradient animate-text-glow">AI Images</span>
               </h1>
-              
               <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed animate-fade-in-up">
-                Transform your wildest imagination into breathtaking visuals with our cutting-edge AI image generation platform. 
-                <span className="text-primary font-semibold"> Professional quality, lightning fast results.</span>
+                Transform your wildest imagination into breathtaking visuals with our cutting-edge AI image generation platform. <span className="text-primary font-semibold"> Professional quality, lightning fast results.</span>
               </p>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
               {user ? (
                 <Link to="/dashboard">
@@ -196,271 +151,172 @@ const Index = () => {
                 View Gallery
               </Button>
             </div>
+          </div>
+        </div>
+        
+       <MarqueeDemo/>
+        
+         {/* <Testimonials/> */}
+      </section>
 
-            {/* Hero AI Art Background */}
-            <div className="mt-20 relative animate-scale-in">
-              <div className="relative mx-auto max-w-6xl">
-                <div className="glass-electric rounded-3xl p-8 shadow-cinematic">
-                  <div className="aspect-video bg-gradient-to-br from-card to-card/80 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    {/* AI-generated art collage as background */}
-                    <div className="absolute inset-0 opacity-20">
-                      <div className="grid grid-cols-3 gap-4 h-full">
-                        {galleryImages.slice(0, 6).map((image, index) => (
-                          <div key={index} className="relative overflow-hidden rounded-lg">
-                            <img
-                              src={image.url}
-                              alt={image.prompt}
-                              className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="relative z-10 text-center space-y-6">
-                      <div className="inline-flex p-6 rounded-2xl bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30">
-                        <ImageIcon className="h-16 w-16 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-heading font-bold text-foreground mb-2">
-                          AI-Generated Art Studio
-                        </h3>
-                        <p className="text-muted-foreground font-medium">
-                          Your creative vision, powered by artificial intelligence
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+       <FeaturesSectionWithHoverEffects/>
+     </div>
+     
+     
+      
+      <div className="relative  z-10">
+          
+     
+        <TestimonialsMaster/>
+        <BentoGridGalleryDemo/>
+        <CTASection
+      badge={{
+        text: "Get started"
+      }}
+      title="Start building with Launch UI"
+      description="Get started with Launch UI and build your landing page in no time"
+      action={{
+        text: "Get Started",
+        href: "/docs",
+        variant: "default"
+      }}
+    />
+
+      {/* Footer Section */}
+    <footer className="py-16 bg-background sm:pt-20 lg:pt-24  border-border">
+      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
+          <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
+            <h2>Pixora</h2>
+
+            <p className="text-base leading-relaxed text-muted-foreground mt-7">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+            </p>
+
+            <ul className="flex items-center space-x-3 mt-9">
+              <li>
+                <a
+                  href="#"
+                  title="Twitter"
+                  className="flex items-center justify-center text-foreground transition-all duration-200 bg-[#18181b] rounded-full w-8 h-8 hover:bg-primary focus:bg-primary"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.633 7.997c.013.175.013.349.013.523 0 5.325-4.053 11.461-11.46 11.461-2.282 0-4.402-.661-6.186-1.809.324.037.636.05.973.05a8.07 8.07 0 0 0 5.001-1.721 4.036 4.036 0 0 1-3.767-2.793c.249.037.499.062.761.062.361 0 .724-.05 1.061-.137a4.027 4.027 0 0 1-3.23-3.953v-.05c.537.299 1.16.486 1.82.511a4.022 4.022 0 0 1-1.796-3.354c0-.748.199-1.434.548-2.032a11.457 11.457 0 0 0 8.306 4.215c-.062-.3-.1-.611-.1-.923a4.026 4.026 0 0 1 4.028-4.028c1.16 0 2.207.486 2.943 1.272a7.957 7.957 0 0 0 2.556-.973 4.02 4.02 0 0 1-1.771 2.22 8.073 8.073 0 0 0 2.319-.624 8.645 8.645 0 0 1-2.019 2.083z" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  title="Facebook"
+                  className="flex items-center justify-center text-foreground transition-all duration-200 bg-[#18181b] rounded-full w-8 h-8 hover:bg-primary focus:bg-primary"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  title="Instagram"
+                  className="flex items-center justify-center text-foreground transition-all duration-200 bg-[#18181b] rounded-full w-8 h-8 hover:bg-primary focus:bg-primary"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.999 7.377a4.623 4.623 0 1 0 0 9.248 4.623 4.623 0 0 0 0-9.248zm0 7.627a3.004 3.004 0 1 1 0-6.008 3.004 3.004 0 0 1 0 6.008z" />
+                    <circle cx="16.806" cy="7.207" r="1.078"></circle>
+                    <path d="M20.533 6.111A4.605 4.605 0 0 0 17.9 3.479a6.606 6.606 0 0 0-2.186-.42c-.963-.042-1.268-.054-3.71-.054s-2.755 0-3.71.054a6.554 6.554 0 0 0-2.184.42 4.6 4.6 0 0 0-2.633 2.632 6.585 6.585 0 0 0-.419 2.186c-.043.962-.056 1.267-.056 3.71 0 2.442 0 2.753.056 3.71.015.748.156 1.486.419 2.187a4.61 4.61 0 0 0 2.634 2.632 6.584 6.584 0 0 0 2.185.45c.963.042 1.268.055 3.71.055s2.755 0 3.71-.055a6.615 6.615 0 0 0 2.186-.419 4.613 4.613 0 0 0 2.633-2.633c.263-.7.404-1.438.419-2.186.043-.962.056-1.267.056-3.71s0-2.753-.056-3.71a6.581 6.581 0 0 0-.421-2.217z" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  title="GitHub"
+                  className="flex items-center justify-center text-foreground transition-all duration-200 bg-[#18181b] rounded-full w-8 h-8 hover:bg-primary focus:bg-primary"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Company</p>
+
+            <ul className="mt-6 space-y-4">
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">About</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Features</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Works</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Career</a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Help</p>
+
+            <ul className="mt-6 space-y-4">
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Customer Support</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Delivery Details</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Terms & Conditions</a>
+              </li>
+              <li>
+                <a href="#" className="flex text-base text-foreground/80 transition-all duration-200 hover:text-primary">Privacy Policy</a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
+            <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Subscribe to newsletter</p>
+
+            <form action="#" method="POST" className="mt-6">
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  className="block w-full p-4 text-foreground placeholder-muted-foreground transition-all duration-200 bg-muted/10 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 caret-primary"
+                />
               </div>
-            </div>
+
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center px-6 py-4 mt-3 font-semibold text-white transition-all duration-200 bg-primary rounded-md hover:bg-primary/90 focus:bg-primary/90"
+              >
+                Subscribe
+              </button>
+            </form>
           </div>
         </div>
-      </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-card/30">
-        <div className="container-electric">
-          <div className="stats-grid">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center space-y-4 card-electric p-8">
-                <div className="flex items-center justify-center gap-3 text-primary">
-                  {stat.icon}
-                  <span className="text-4xl sm:text-5xl font-heading font-bold">{stat.number}</span>
-                </div>
-                <p className="text-muted-foreground font-medium text-lg">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <hr className="mt-16 mb-10 border-border" />
 
-      {/* Features Section */}
-      <section className="py-32">
-        <div className="container-electric">
-          <div className="text-center space-y-8 mb-20">
-            <Badge className="px-6 py-3 text-primary border-primary/30 bg-primary/10 font-medium">
-              ✨ Premium Features
-            </Badge>
-            <h2 className="text-5xl sm:text-6xl font-heading font-bold text-foreground">
-              Why Choose <span className="text-gradient">ImageMaster</span>?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-              Experience the perfect blend of cutting-edge technology, professional quality, and intuitive design
-            </p>
-          </div>
+        <p className="text-sm text-center text-muted-foreground">© {new Date().getFullYear()} Pixora. All rights reserved.</p>
+      </div>
+    </footer>
 
-          <div className="features-grid">
-            {features.map((feature, index) => (
-              <Card key={index} className="card-electric group">
-                <CardHeader className="text-center pb-6">
-                  <div className={`inline-flex p-4 rounded-2xl bg-muted/50 ${feature.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    {feature.icon}
-                  </div>
-                  <CardTitle className="text-2xl font-heading font-bold text-foreground">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-lg leading-relaxed text-center text-muted-foreground">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section className="py-32 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-        <div className="container-electric">
-          <div className="text-center space-y-8 mb-20">
-            <Badge className="px-6 py-3 text-accent border-accent/30 bg-accent/10 font-medium">
-              🎨 Generated Gallery
-            </Badge>
-            <h2 className="text-5xl sm:text-6xl font-heading font-bold text-foreground">
-              Explore Our <span className="text-gradient-secondary">Creative Collection</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-              Discover the incredible possibilities of AI-generated art
-            </p>
-          </div>
-
-          <div className="gallery-grid">
-            {galleryImages.map((image) => (
-              <div key={image.id} className="group">
-                <Card className="card-electric overflow-hidden">
-                  <div className="relative aspect-[4/5]">
-                    <img
-                      src={image.url}
-                      alt={image.prompt}
-                      className="w-full h-full object-cover image-electric"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* Hover overlay with actions */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                      <div className="flex gap-3">
-                        <Button size="sm" variant="secondary" className="bg-white/90 backdrop-blur-sm text-foreground border-white/20 hover:bg-white">
-                          <Download className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="secondary" className="bg-primary/90 backdrop-blur-sm text-white border-primary/40 hover:bg-primary">
-                          <Star className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-6">
-                    <p className="text-base font-medium text-foreground line-clamp-2 text-center">
-                      {image.prompt}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-32">
-        <div className="container-electric">
-          <div className="text-center space-y-8 mb-20">
-            <Badge className="px-6 py-3 text-secondary border-secondary/30 bg-secondary/10 font-medium">
-              💬 What Our Users Say
-            </Badge>
-            <h2 className="text-5xl sm:text-6xl font-heading font-bold text-foreground">
-              Loved by <span className="text-gradient">Creators Worldwide</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Join thousands of satisfied creators who have transformed their vision into reality
-            </p>
-          </div>
-
-          <div className="relative max-w-5xl mx-auto">
-            <div className="flex items-center justify-center">
-              <Card className="card-electric w-full">
-                <CardContent className="pt-16 pb-12 px-16">
-                  <div className="flex mb-10 justify-center">
-                    {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                      <Star key={i} className="h-6 w-6 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <blockquote className="text-2xl text-foreground mb-10 italic leading-relaxed text-center">
-                    "{testimonials[currentTestimonial].content}"
-                  </blockquote>
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold text-xl">
-                      {testimonials[currentTestimonial].avatar}
-                    </div>
-                    <div className="text-center">
-                      <p className="font-heading font-bold text-xl text-foreground">{testimonials[currentTestimonial].name}</p>
-                      <p className="text-muted-foreground">{testimonials[currentTestimonial].role}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            {/* Navigation arrows */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prevTestimonial}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 border-border/50 hover:border-primary/50 hover:bg-primary/5"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={nextTestimonial}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 border-border/50 hover:border-primary/50 hover:bg-primary/5"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-32 bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10">
-        <div className="container-electric">
-          <div className="max-w-5xl mx-auto text-center space-y-12">
-            <Badge className="px-6 py-3 text-accent border-accent/30 bg-accent/10 font-medium">
-              🎨 Ready to Create?
-            </Badge>
-            
-            <h2 className="text-5xl sm:text-6xl font-heading font-bold text-foreground">
-              Start Your Creative Journey Today
-            </h2>
-            
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-              Join thousands of creators who are already using ImageMaster to bring their wildest imagination to life. 
-              <span className="text-primary font-semibold"> Start creating stunning AI images in seconds.</span>
-            </p>
-            
-            {!user && (
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Link to="/auth">
-                  <Button size="lg" className="text-xl px-12 py-10 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-electric transition-all duration-300 transform hover:scale-105">
-                    <Sparkles className="h-6 w-6 mr-3" />
-                    Get Started for Free
-                    <ArrowRight className="h-6 w-6 ml-3" />
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-border/20 bg-card/30 py-20">
-        <div className="container-electric">
-          <div className="text-center space-y-10">
-            <div className="flex items-center justify-center gap-3">
-              <Sparkles className="h-7 w-7 text-primary animate-electric-pulse" />
-              <span className="text-2xl font-heading font-bold text-foreground animate-text-glow">
-                ImageMaster
-              </span>
-            </div>
-            <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-              © 2024 ImageMaster. All rights reserved. Empowering creativity through cutting-edge AI technology.
-            </p>
-            <div className="flex items-center justify-center gap-8 text-muted-foreground">
-              <span className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</span>
-              <span>•</span>
-              <span className="hover:text-primary transition-colors cursor-pointer">Terms of Service</span>
-              <span>•</span>
-              <span className="hover:text-primary transition-colors cursor-pointer">Support</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      </div>
+    
+    
     </div>
   );
-};
+}
 
 export default Index;
